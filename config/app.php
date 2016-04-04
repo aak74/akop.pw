@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+
+
 return [
 
     /*
@@ -40,7 +43,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://tasks.dev'),
+    'url' => env('APP_URL', 'https://akop.pw'),
 
     /*
     |--------------------------------------------------------------------------
