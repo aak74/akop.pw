@@ -4,11 +4,11 @@ session_start();
 /**
  * client_id приложения
  */
-define('CLIENT_ID', 'local.56f7aa66c6ed45.83399518');
+define('CLIENT_ID', 'local.572494a8deb564.76598859');
 /**
  * client_secret приложения
  */
-define('CLIENT_SECRET', '470c08ef8dc76b6b4699f812ef8bb953');
+define('CLIENT_SECRET', '06455b6b9742eb49de8e904b5c0ae435');
 /**
  * относительный путь приложения на сервере
  */
@@ -16,7 +16,7 @@ define('PATH', '/3/');
 /**
  * полный адрес к приложения
  */
-define('REDIRECT_URI', 'http://tasks.gbdev.ru'.PATH);
+define('REDIRECT_URI', 'http://akop.pw'.PATH);
 /**
  * scope приложения
  */
