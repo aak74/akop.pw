@@ -11,9 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [
+	'as' => 'main',
+	'uses' => 'IndexController@index'
+]);
+
+Route::get('/test/', [
+	'as' => 'test',
+	'uses' => 'TestController@index'
+]);
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -29,5 +40,13 @@ Route::get('/', function () {
 // Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => 'api/v1/'], function() {
     Route::resource('tasks', 'TaskController');
+    // Route::controller('taskFolders', 'TaskFolderController');
     Route::resource('taskFolders', 'TaskFolderController');
+    Route::resource('portals', 'PortalController');
 });
+
+Route::controllers([
+    // 'taskFolders' => 'TaskFolderController',
+	// 'auth' => 'Auth\AuthController'
+	'auth' => 'Auth\AuthController'
+]);

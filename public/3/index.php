@@ -211,7 +211,7 @@ else
 	/******************************************************************/
 }
 
-echo 'SESS<pre>'; print_r($_SESSION); echo '</pre>';
+echo '_123_SESS<pre>'; print_r($_SESSION); echo '</pre>';
 echo 'REQUEST<pre>'; print_r($_REQUEST); echo '</pre>';
 require_once(dirname(__FILE__)."/include/footer.php");
 ?>
