@@ -38,14 +38,14 @@ tasks = {
 			],
 			function (err, res){
 				if (!err) {
-					console.log("tasks loaded", res.length);
+					// console.log("tasks loaded", res.length);
 					tasks._normalizeTasks(res);
 					tasks.getTaskFolders(tasks.showTasks);
 					if (cb) {
 						cb(null, res);
 					}
 
-				// } else {
+				} else {
 					console.log("getTasks error");
 					if (cb) {
 						cb(err, null);
@@ -152,7 +152,9 @@ tasks = {
 					],
 					function(err, res) {
 						if (!err) {
-							tasks.updateTask(taskId, {DEADLINE: deferTo});
+							var task = tasks.getTask(taskId);
+							task.DEADLINE = moment(deferTo, "DD.MM.YYYY H:mm");
+							tasks.updateTask(taskId, tasks._normalizeTask(task));
 							tasks.showTasks();
 						}
 					}
@@ -468,7 +470,7 @@ tasks = {
 		api.getCurrentUser(function(err, res) {
 			if (!err) {
 				tasks.userId = res.ID;
-				console.log('userId=' + tasks.userId);
+				// console.log('userId=' + tasks.userId);
 				tasks.getTasks();
 			} else {
 				tasks._showError(err, 'Ошибка при получении данных о номере текущего пользователя');
@@ -498,6 +500,7 @@ tasks = {
 		// console.log(res.length);
 		tasks.tasks = [];
 		tasks.taskIds = "";
+		var task = {};
 
 		/* Фильтр задач для админа. BX24 админу отдает ВСЕ задачи, никакие SUBORDINATE_TASKS не помогают */
 		res = res.filter(function(d) {
@@ -509,36 +512,35 @@ tasks = {
 			);
 		});
 		for (var i in res) {
-			res[i].FOLDER_TILL = "";
-			if (res[i].DEADLINE !== "" ) {
-				deadline = moment(res[i].DEADLINE);
-				today = moment().endOf('day');
-				tommorow = moment().endOf('day').add(1, 'days');
-				week = moment().endOf('day').add(7, 'days');
-				// console.log(today, tommorow, week);
-				if ( moment(deadline).isSameOrBefore(today) ) {
-					res[i].FOLDER_TILL = "TODAY";
-					res[i].OVERDUED = true;
-				} else if ( moment(deadline).isSameOrBefore(tommorow) ) {
-					res[i].FOLDER_TILL = "TOMORROW";
-				} else if ( moment(deadline).isSameOrBefore(week) ) {
-					res[i].FOLDER_TILL = "WEEK";
-				} else {
-					// res[i].FOLDER_TILL = "NOT_SOON";
-				};
-				res[i].DEADLINE = deadline.format("DD.MM.YYYY H:mm");
-			}
-			if (res[i].CLOSED_DATE) {
-				res[i].CLOSED_DATE = moment(res[i].CLOSED_DATE).format("DD.MM.YYYY H:mm")
-			}
-
-
-			tasks.tasks.push(res[i]);
-			tasks.taskIds += res[i].ID + "+";
+			task = tasks._normalizeTask(res[i]);
+			tasks.tasks.push(task);
+			tasks.taskIds += task.ID + "+";
 		};
 		// console.log('_normalize end');
 	},
 
+	_normalizeTask: function (task) {
+		task.FOLDER_TILL = "";
+		if (task.DEADLINE !== "" ) {
+			var deadline = moment(task.DEADLINE);
+			var today = moment().endOf('day');
+			var tommorow = moment().endOf('day').add(1, 'days');
+			var week = moment().endOf('day').add(7, 'days');
+			if ( moment(deadline).isSameOrBefore(today) ) {
+				task.FOLDER_TILL = "TODAY";
+				task.OVERDUED = true;
+			} else if ( moment(deadline).isSameOrBefore(tommorow) ) {
+				task.FOLDER_TILL = "TOMORROW";
+			} else if ( moment(deadline).isSameOrBefore(week) ) {
+				task.FOLDER_TILL = "WEEK";
+			};
+			task.DEADLINE = deadline.format("DD.MM.YYYY H:mm");
+		}
+		if (task.CLOSED_DATE) {
+			task.CLOSED_DATE = moment(task.CLOSED_DATE).format("DD.MM.YYYY H:mm")
+		}
+		return task;
+	},
 
 	resizeFrame: function () {
 
@@ -563,31 +565,4 @@ BX24.init(function (e) {
 
 	tasks.start();
 });
-
-
-function addScript(src, callback) {
-	var script = document.createElement('script');
-    script.src = src;
-	var s = document.getElementsByTagName('script')[0]
-	s.parentNode.insertBefore(script, s);
-
-	var loaded = false;
-
-	function onload() {
-		if (loaded) return; // повторный вызов
-		loaded = true;
-		callback();
-	}
-
-	script.onload = onload; // все браузеры, IE с версии 9
-
-	script.onreadystatechange = function() { // IE8-
-		if (this.readyState == 'loaded' || this.readyState == 'complete') {
-			setTimeout(onload, 0);
-		}
-	};
-
-}
-
-
 })();
