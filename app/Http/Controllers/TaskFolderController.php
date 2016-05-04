@@ -45,14 +45,22 @@ class TaskFolderController extends Controller
      */
     public function store(Request $request)
     {
-        $result = TaskFolder::where('user_id', Request()['user_id'])->where('task_id', Request()['task_id'])->first();
-        if ( count($result) ) {
-            $result->folder = Request()['folder'];
-            $result->save();
+        if ( $userId = $this->getUserId(Request()['member_id'], Request()['user_id']) ) {
+            $result = TaskFolder::firstOrCreate(['user_id' => $userId, 'task_id' => Request()['task_id']]);
+            if ( count($result) ) {
+                $result->folder = Request()['folder'];
+                $result->save();
+            } else {
+                $result = TaskFolder::create($request->input());
+            }
+
+            return response()->json($result, 200);
         } else {
-            $result = TaskFolder::create($request->input());
+            return response()->json(
+                'Missing parameters',
+                400
+            );
         }
-        return response()->json($result, 200);
     }
 
     /**
@@ -63,7 +71,6 @@ class TaskFolderController extends Controller
      */
     public function show($id)
     {
-
         if (!Request()['member_id']) {
             return response()->json(
                 'Missing parameters',
@@ -71,29 +78,22 @@ class TaskFolderController extends Controller
             );
 
         } else {
-            // dd(Request()['member_id']);
-            // var_dump(Request());
-            /* Если портала не существует, то отдадим пустой ответ */
-            $portal = Portal::where('member_id', Request()['member_id'])->first();
-            if ($portal === null) {
+            if ( $userId = $this->getUserId(Request()['member_id'], $id) ) {
+                // dd($userId);
+                if (Request()['taskIds']) {
+                    // Возвразщаем только информацию о тех задачах, которая есть в запросе
+                    $result = TaskFolder::where('user_id', $userId)->whereIn('task_id', explode('+', Request()['taskIds']))->get();
+                } else {
+                    // $result = TaskFolder::where('user_id', $user->id)->get();
+                    return response()->json(
+                        'Missing parameters',
+                        400
+                    );
+                }
+            } else {
                 return response()->json(
                     'Portal not found',
                     404
-                );
-            }
-
-            // Создает пользователя если его еще нет в нашей БД
-            $user = User::firstOrCreate(['user_id' => $id, 'portal_id' => $portal->id]);
-            // dd(explode('+', Request()['taskIds']));
-
-            if (Request()['taskIds']) {
-                // Возвразщаем только информацию о тех задачах, которая есть в запросе
-                $result = TaskFolder::where('user_id', $user->id)->whereIn('task_id', explode('+', Request()['taskIds']))->get();
-            } else {
-                // $result = TaskFolder::where('user_id', $user->id)->get();
-                return response()->json(
-                    'Missing parameters',
-                    400
                 );
             }
 
@@ -137,4 +137,17 @@ class TaskFolderController extends Controller
     {
         //
     }
+
+    public function getUserId($member_id, $id) {
+        $portal = Portal::where('member_id', $member_id)->first();
+        /* Если портала не существует, то отдадим пустой ответ */
+        if ($portal === null) {
+            return $false;
+        } else {
+            // Создает пользователя если его еще нет в нашей БД
+            $user = User::firstOrCreate(['user_id' => $id, 'portal_id' => $portal->id]);
+            return $user->id;
+        }
+    }
+
 }
