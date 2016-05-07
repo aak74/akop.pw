@@ -1,5 +1,5 @@
 @extends('layouts.default')
 
 @section('content')
-<h1>Test</h1>
+<h1>Test, only test</h1>
 @stop

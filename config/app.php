@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 
 
-return [
+$result = [
 
     /*
     |--------------------------------------------------------------------------
@@ -162,7 +162,6 @@ return [
 
 
         // dev
-        Barryvdh\Debugbar\ServiceProvider::class,
         // Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
@@ -216,3 +215,11 @@ return [
     ],
 
 ];
+
+if (getenv('APP_DEBUG')) {
+    $result['providers'][] = Barryvdh\Debugbar\ServiceProvider::class;
+}
+
+
+
+return $result;

@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<!doctype html>
+<html lang="en">
+
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laravel + Polymer</title>
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script type="text/javascript" src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сервисы и приложения для соцсетей</title>
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="elements/elements.html">
+    <style is="custom-style" include="shared-styles"></style>
 </head>
+
 <body unresolved>
-    @yield('content')
     <!-- build:remove -->
     <span id="browser-sync-binding"></span>
     <!-- endbuild -->
@@ -25,54 +31,59 @@
                     <span class="menu-name">Menu</span>
                 </paper-toolbar>
 
-                <!-- Drawer Content -->
-                <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
-                    <a data-route="home" href="@{{baseUrl}}">
-                        <iron-icon icon="home"></iron-icon>
-                        <span>Home</span>
-                    </a>
+                <dom-module id="simple-menu">
 
-                    <a data-route="users" href="@{{baseUrl}}users">
-                        <iron-icon icon="info"></iron-icon>
-                        <span>Users</span>
-                    </a>
+                    <template>
+                        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
+                            <template is="dom-repeat" id="menu" items="@{{menuItems}}">
+                                <a data-route="[[item.route]]" href="@{{baseUrl}}[[item.url]]">
+                                    <iron-icon icon="[[item.icon]]"></iron-icon>
+                                    <span>[[item.name]]</span>
+                                </a>
+                            </template>
+                        </paper-menu>
+                    </template>
 
-                    <a data-route="contact" href="@{{baseUrl}}contact">
-                        <iron-icon icon="mail"></iron-icon>
-                        <span>Contact</span>
-                    </a>
-                </paper-menu>
+                    <script>
+                        Polymer({
+                            is: 'simple-menu',
+                            ready: function() {
+                                this.menuItems = [
+                                    { name: "Home", route: "home", url: "", icon: "home" },
+                                    { name: "Приложения", route: "apps", url: "apps", icon: "apps" },
+                                    { name: "Пользователи", route: "users", url: "users", icon: "info" },
+                                    { name: "Контакты", route: "contact", url: "contact", icon: "mail" },
+                                ];
+                            },
+                        });
+                    </script>
+
+                </dom-module>
+                <simple-menu></simple-menu>
             </paper-scroll-header-panel>
 
-            <!-- Main Area -->
             <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
-                <!-- Main Toolbar -->
                 <paper-toolbar id="mainToolbar" class="tall">
                     <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
 
                     <span class="space"></span>
-
-                    <!-- Toolbar icons -->
                     <paper-icon-button icon="refresh"></paper-icon-button>
-                    <paper-icon-button icon="search"></paper-icon-button>
 
-                    <!-- Application name -->
                     <div class="middle middle-container">
-                        <div class="app-name">Polymer Starter Kit</div>
+                        <div class="app-name">akop.pw</div>
                     </div>
 
-                    <!-- Application sub title -->
                     <div class="bottom bottom-container">
-                        <div class="bottom-title">The future of the web today</div>
+                        <div class="bottom-title">Сервисы и приложения для соцсетей</div>
                     </div>
                 </paper-toolbar>
 
-                <!-- Main Content -->
                 <div class="content">
                     <iron-pages attr-for-selected="data-route" selected="@{{route}}">
                         <section data-route="home" tabindex="-1">
                             <paper-material elevation="1">
-                                <my-greeting></my-greeting>
+                                <h1 class="page-title" tabindex="-1">Welcome</h1>
+                                <h2><?=getenv('APP_ENV');?></h2>
 
                                 <p class="subhead">You now have:</p>
                                 <my-list></my-list>
@@ -83,7 +94,7 @@
                             <paper-material elevation="1">
                                 <iron-ajax
                                     auto
-                                    url="//akop.pw/"
+                                    url="http://akop.pw/"
                                     params='{}'
                                     handle-as="text"
                                     on-response="handleResponse"
@@ -110,6 +121,13 @@
                             </paper-material>
                         </section>
 
+                        <section data-route="apps" tabindex="-1">
+                            <paper-material elevation="1">
+                                <h1 class="page-title" tabindex="-1">Приложения</h1>
+                                <p>This is the section of apps</p>
+                            </paper-material>
+                        </section>
+
                         <section data-route="contact" tabindex="-1">
                             <paper-material elevation="1">
                                 <h1 class="page-title" tabindex="-1">Contact</h1>
@@ -121,10 +139,17 @@
             </paper-scroll-header-panel>
         </paper-drawer-panel>
 
+        <paper-toast id="toast">
+            <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+        </paper-toast>
+
     </template>
 
-    <div class="container">
-        <h1 class="title">Lareavel + Polymer</h1>
-    </div>
+    <!-- build:js scripts/app.js -->
+    <script src="scripts/app.js"></script>
+    <!-- endbuild-->
+
 </body>
+
 </html>
+
