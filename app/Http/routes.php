@@ -12,15 +12,29 @@
 */
 
 Route::get('/', [
-	'as' => 'main',
+	'as' => '/',
 	'uses' => 'IndexController@index'
 ]);
 
-Route::get('/test/', [
+Route::get('test/', [
 	'as' => 'test',
 	'uses' => 'TestController@index'
 ]);
 
+/*
+Route::get('/apps/', [
+	'as' => 'apps',
+	'uses' => 'AppsController@index'
+]);
+Route::get('apps/{app}', function($code) {
+    return App\Apps::where('code', $code)->get();
+});
+
+Route::get('apps', function() {
+});
+
+*/
+Route::resource('apps', 'AppsController');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -48,5 +62,6 @@ Route::group(['prefix' => 'api/v1/'], function() {
 Route::controllers([
     // 'taskFolders' => 'TaskFolderController',
 	// 'auth' => 'Auth\AuthController'
-	'auth' => 'Auth\AuthController'
+	'auth' => 'Auth\AuthController',
+	// 'apps' => 'AppsController'
 ]);

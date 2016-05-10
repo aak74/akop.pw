@@ -14,9 +14,7 @@ class IndexController extends MainController
 	}
 	public function index()
 	{
-		// dd("text");
-		$this->data = TaskFolder::get();
-		return view('pages.index', $this->data );
+		return view('pages.index', ['menuActive' => '']);
 	}
 }
 ?>

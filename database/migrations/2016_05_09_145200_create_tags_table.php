@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePortalsTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,14 @@ class CreatePortalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('portals', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('member_id')->unique();
-            $table->integer('expires')->index('expires');
-            $table->timestamps();
+            $table->integer('feature_id')->unsigned();
+            $table->string('name');
+
+            $table->foreign('feature_id')
+                  ->references('id')->on('backlog')
+                  ->onDelete('cascade');
 
         });
     }
@@ -29,6 +31,6 @@ class CreatePortalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('portals');
+        Schema::drop('tags');
     }
 }

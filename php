@@ -1,1 +1,0 @@
-/opt/php56/bin/php
