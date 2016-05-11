@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\TaskFolder;
 use App\User;
 use App\Portal;
+use App\LogLogin;
 
 class TaskFolderController extends Controller
 {
@@ -146,6 +147,15 @@ class TaskFolderController extends Controller
         } else {
             // Создает пользователя если его еще нет в нашей БД
             $user = User::firstOrCreate(['user_id' => $id, 'portal_id' => $portal->id]);
+
+            // добавляет запись в лог о действиях пользователя
+            $log = new LogLogin;
+
+            $log->portal_id = $portal->id;
+            $log->user_id = $user->id;
+            $log->app_id = 1;
+
+            $log->save();
             return $user->id;
         }
     }
