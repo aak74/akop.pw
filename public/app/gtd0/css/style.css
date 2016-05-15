@@ -49,6 +49,15 @@ ul.folder-kind-folder > li.active > a {
 	background-color: #ccc !important;
 }
 
+.task {
+	height: 240px;
+	overflow: hidden;
+	/*
+	width: 200px;
+	margin-right: 20px;
+	float: left;*/
+}
+
 .task.priority0 {
 	border-left: 3px solid #bbb;
 }
@@ -118,10 +127,10 @@ ul.folder-kind-folder > li.active > a {
 
 .task-main .label {
   position: absolute !important;
-  left: -22px !important;
-  top: -20px !important;
+  left: 16px !important;
+  top: 0 !important;
   z-index: 100;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 

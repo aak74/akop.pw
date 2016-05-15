@@ -1,0 +1,21 @@
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="akop-projects">
+    <template>
+    	<h3>Проекты</h3>
+    	<ul>
+	        <template is="dom-repeat" items="{{items}}">
+                <li>{{item.NAME}}</li>
+        		<li>{{item.name}}</li>
+	        </template>
+    	</ul>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'akop-projects',
+            setItems: function(items) {
+            	this.items = items;
+            },
+        });
+    </script>
+</dom-module>

@@ -283,7 +283,8 @@ tasks = {
 				|| (d.FOLDER === undefined) && (folderName === "INBOX") // filter by folder
 			) {
 
-				str += '<div class="task well row priority' + d.PRIORITY
+				str += '<div class="col-md-3 col-sm-4">'
+					+ '<div class="task well priority' + d.PRIORITY
 					+ ((d.STATUS == 5) ? " closed" : "")
 					+ ((d.STATUS == 4) ? " almost-closed" : "")
 					+ '"'
@@ -294,7 +295,7 @@ tasks = {
 					// + "</div>";
 
 		/* Task title */
-				str += "<div class=\"task-main col-md-5 col-sm-4\">"
+				str += "<div class=\"task-main\">"
 				 	+ "<span class=\"label label-"
 				 	+ ( (d.PRIORITY > 1) ? "danger" : "success" ) + "\">" + d.ID + "</span>"
 					+ "<div class=\"task-title\">"
@@ -314,7 +315,7 @@ tasks = {
 
 
 				/* Actions */
-				str += "<div class=\"task-tools col-md-3 col-sm-3\">";
+				str += "<div class=\"task-tools\">";
 
 				// if (!d.ACTION_APPROVE && !d.ACTION_DISAPPROVE && (d.RESPONSIBLE_ID == tasks.userId))
 				// if (!d.ALLOWED_ACTIONS["ACTION_APPROVE"] && !d.ALLOWED_ACTIONS["ACTION_DISAPPROVE"]) {
@@ -355,7 +356,7 @@ tasks = {
 
 				/* Deadline */
 				// if (d.DEADLINE !== '') deadline = d.DEADLINE.split('T');
-				str += "<div class=\"task-deadline-col col-md-2 col-sm-3\">"
+				str += "<div class=\"task-deadline-col\">"
 					+ ( (d.DEADLINE)
 						? "<div class=\"task-deadline" + ((d.OVERDUED) ? " task-status-overdue" : "") + "\">"
 							+ "<span class=\"glyphicon glyphicon-time\"></span>&nbsp;"
@@ -369,7 +370,7 @@ tasks = {
 					+ "</div>";
 
 				/* Task team */
-				str += "<div class=\"task-team col-md-2 col-sm-2\">" + tasks.getName(d.CREATED_BY_LAST_NAME, d.CREATED_BY_NAME, d.CREATED_BY_LOGIN) + "<br/>"
+				str += "<div class=\"task-team\">" + tasks.getName(d.CREATED_BY_LAST_NAME, d.CREATED_BY_NAME, d.CREATED_BY_LOGIN) + "<br/>"
 					+ "<span class=\"glyphicon glyphicon-hand-down\"></span>&nbsp;" + "<br/>"
 					+ tasks.getName(d.RESPONSIBLE_LAST_NAME, d.RESPONSIBLE_NAME, d.RESPONSIBLE_LOGIN) + "</div>";
 
@@ -390,7 +391,7 @@ tasks = {
 			// 	str += "<span class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;" + tasks.folders[d.FOLDER]["name"];
 			// }
 
-			str += "</div>";
+			str += "</div></div>";
 		};
 		$(".tasks").html(str);
 		// console.log('counters', counters);

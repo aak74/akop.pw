@@ -10,31 +10,8 @@
 </head>
 <body class="container">
 <?
-function pr_var($var, $title='') {
-	echo '<h3>'.$title.'</h3><br>count = _' . count($var). '_<pre>';
-	print_r($var);
-	echo '</pre>';
-}
-
-require $_SERVER["DOCUMENT_ROOT"] . '/../bootstrap/autoload.php';
-
-$app = require_once $_SERVER["DOCUMENT_ROOT"] . '/../bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
-
-use App\Portal;
-$data = Portal::firstOrCreate([
-	'member_id' => htmlspecialchars( $_POST['member_id'] )
-]);
-
-if ($data->name == '') {
-	$data->name = htmlspecialchars( $_GET['DOMAIN'] );
-	$data->save();
-}
-// dd($data);
+require $_SERVER["DOCUMENT_ROOT"] . '/app/common.php';
+registerApp('gtd');
 ?>
 	<h1>Задачи GTD</h1>
 	<div id="app">
