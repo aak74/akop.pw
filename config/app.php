@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-
-
 $result = [
 
     /*
@@ -217,6 +214,7 @@ $result = [
 ];
 
 if (getenv('APP_DEBUG')) {
+    error_reporting(E_ALL);
     $result['providers'][] = Barryvdh\Debugbar\ServiceProvider::class;
 }
 

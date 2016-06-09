@@ -8,8 +8,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico">
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="import" href="/elements/elements.html">
-    <link rel="import" href="elements/elements_backlog.html">
-    <style is="custom-style" include="shared-styles"></style>
+    <link rel="import" href="<?=$_GLOBALS['version_path']?>elements/elements_backlog.html">
 </head>
 <body>
     <paper-material elevation="1">
@@ -18,7 +17,7 @@
     <paper-material elevation="1">
         <akop-projects id="portals"></akop-projects>
     </paper-material>
-
+<!--
     <paper-tabs id="groups" selected="0" autoselect autoselect-delay="1000" is="dom-repeat" items="{{items}}">
         <paper-tab>{{item.NAME}}</paper-tab>
         <script>
@@ -31,6 +30,50 @@
             });
         </script>
     </paper-tabs>
+ -->
+
+    <div id="notes">
+        <paper-card heading="Call Jennifer" class="cyan">
+            <div class="card-actions">
+                <paper-icon-button icon="communication:call" style="color:white;"></paper-icon-button>
+                <span>March 19, 2017</span>
+            </div>
+        </paper-card>
+        <paper-card class="dark">
+            <div class="card-content">
+                <p>Groceries:</p>
+                <paper-checkbox>almond milk</paper-checkbox>
+                <paper-checkbox>coconut water</paper-checkbox>
+                <paper-checkbox>cheese</paper-checkbox>
+                <paper-checkbox>green apples</paper-checkbox>
+            </div>
+            <div class="card-actions">
+                <paper-icon-button icon="communication:location-on" style="color:white"></paper-icon-button>
+                <span>Campbell</span>
+            </div>
+        </paper-card>
+        <paper-card heading="clean desk" class="lime"></paper-card>
+        <paper-card image="./donuts.png" class="amber">
+            <div class="card-content">New cafe opened on Valencia St.</div>
+        </paper-card>
+        <paper-card heading="Yuna tickets on sale 6/24" class="cyan">
+        </paper-card>
+    </div>
+    <style>
+      #notes {
+        @apply(--layout-vertical);
+        @apply(--layout-wrap);
+        height: 344px;
+        width: 384px;
+      }
+
+      #notes > paper-card {
+        box-sizing: border-box;
+        max-width: 184px;
+        margin: 4px;
+        flex: 0 0 auto;
+      }
+    </style>
 
     <iron-ajax id="ajax-portals"
         auto="true"

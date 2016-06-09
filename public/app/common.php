@@ -1,10 +1,4 @@
 <?
-function pr_var($var, $title='') {
-	echo '<h3>'.$title.'</h3><br>count = _' . count($var). '_<pre>';
-	print_r($var);
-	echo '</pre>';
-}
-
 require $_SERVER["DOCUMENT_ROOT"] . '/../bootstrap/autoload.php';
 
 $app = require_once $_SERVER["DOCUMENT_ROOT"] . '/../bootstrap/app.php';

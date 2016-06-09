@@ -1,15 +1,28 @@
 <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
 <dom-module id="akop-projects">
     <template>
     	<h3>Проекты</h3>
-    	<ul>
-	        <template is="dom-repeat" items="{{items}}">
-                <li>{{item.NAME}}</li>
-        		<li>{{item.name}}</li>
-	        </template>
-    	</ul>
+        <template is="dom-repeat" items="{{items}}">
+            <paper-material elevation="2" class="card layout horizontal center-center x-scope">
+                <span>{{item.name}}</span>
+                <paper-ripple style="color: #d23f31">
+                    <div id="background" class="style-scope paper-ripple"></div>
+                    <div id="waves" class="style-scope paper-ripple"></div>
+                </paper-ripple>
+            </paper-material>
+        </template>
     </template>
+    <style>
+        paper-material.card {
+            width: 175px;
+            height: 45px;
+            margin: 0 24px 24px;
+            /*margin-right: 24px;*/
+            float:left;
+        }
 
+    </style>
     <script>
         Polymer({
             is: 'akop-projects',
